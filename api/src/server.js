@@ -1,23 +1,21 @@
 import express from 'express';
-import { Kafka, Partitioners } from 'kafkajs';
+import { Kafka } from 'kafkajs';
 import routes from './routes';
 
 const kafka = new Kafka({
   clientId: 'api',
-  brokers: ['kafka1:9092'],
-});
-
-const producer = kafka.producer({
-  createPartitioner: Partitioners.LegacyPartitioner,
+  brokers: ['localhost:9092'],
 });
 
 const app = express();
 
+const admin = kafka.admin();
+
 app.use((req, res, next) => {
-  req.producer = producer;
+  req.admin = admin
 
   next();
-}, routes);
+}, express.json(), routes);
 
 const run = async () => {
   app.listen(3333, () => {

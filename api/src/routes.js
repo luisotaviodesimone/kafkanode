@@ -1,11 +1,27 @@
 import express from 'express';
 
-const routes = express.Router()
+const routes = express.Router();
 
-routes.post('/certifications', (req, res) => {
-  console.log(req.producer);
+routes.post('/create-topic', async (req, res) => {
 
-  return res.json({ message: 'Certification created' });
+  const { admin } = req;
+  const { topic } = req.body;
+
+  await admin.connect();
+
+  await admin.createTopics({
+    topics: [
+      {
+        topic: topic,
+        numPartitions: 2,
+        replicationFactor: 1,
+      },
+    ],
+  });
+
+  await admin.disconnect();
+
+  return res.json({ message: 'Topic created' });
 });
 
 export default routes;
