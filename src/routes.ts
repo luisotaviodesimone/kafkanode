@@ -1,8 +1,9 @@
 import express from 'express';
+import { MyKafkaRequest, MyKafkaResponse } from './@types/api';
 
 const routes = express.Router();
 
-routes.post('/create-topic', async (req, res) => {
+routes.post('/create-topic', async (req: MyKafkaRequest, res: MyKafkaResponse) => {
 
   const { admin } = req;
   const { topic } = req.body;

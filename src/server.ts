@@ -1,5 +1,6 @@
 import express from 'express';
 import { Kafka } from 'kafkajs';
+import { MyKafkaRequest, MyKafkaResponse } from './@types/api';
 import routes from './routes';
 
 const kafka = new Kafka({
@@ -11,11 +12,15 @@ const app = express();
 
 const admin = kafka.admin();
 
-app.use((req, res, next) => {
-  req.admin = admin
+app.use(
+  (req: MyKafkaRequest, res: MyKafkaResponse, next) => {
+    req.admin = admin;
 
-  next();
-}, express.json(), routes);
+    next();
+  },
+  express.json(),
+  routes
+);
 
 const run = async () => {
   app.listen(3333, () => {
