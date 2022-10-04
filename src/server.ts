@@ -1,6 +1,6 @@
 import express from 'express';
 import { Kafka } from 'kafkajs';
-import { MyKafkaRequest, MyKafkaResponse } from './@types/api';
+import { MyKafkaRequest, MyKafkaResponse } from './@types';
 import routes from './routes';
 
 const kafka = new Kafka({
@@ -12,12 +12,14 @@ const app = express();
 
 const admin = kafka.admin();
 
-app.use(
-  (req: MyKafkaRequest, res: MyKafkaResponse, next) => {
-    req.admin = admin;
+const middleware = (req: MyKafkaRequest, res: MyKafkaResponse, next: express.NextFunction) => {
+  req.admin = admin;
 
-    next();
-  },
+  next();
+}
+
+app.use(
+  middleware,
   express.json(),
   routes
 );
