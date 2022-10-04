@@ -1,5 +1,5 @@
-import { Kafka } from "kafkajs";
-import { run } from "./consumer";
+import { Kafka } from 'kafkajs';
+import { run } from './consumer';
 
 const kafka = new Kafka({
   clientId: 'my-app',
@@ -7,9 +7,19 @@ const kafka = new Kafka({
 });
 
 export const processConsumer = async (topicName: string) => {
-  const ordersConsumer = kafka.consumer({ groupId: 'orders' });
-  const paymentsConsumer = kafka.consumer({ groupId: 'payments' });
-  const notificationsConsumer = kafka.consumer({ groupId: 'notifications' });
+
+  const ordersConsumer = kafka.consumer({
+    groupId: 'orders',
+    allowAutoTopicCreation: false,
+  });
+  const paymentsConsumer = kafka.consumer({
+    groupId: 'payments',
+    allowAutoTopicCreation: false,
+  });
+  const notificationsConsumer = kafka.consumer({
+    groupId: 'notifications',
+    allowAutoTopicCreation: false,
+  });
 
   await Promise.all([
     ordersConsumer.connect(),
