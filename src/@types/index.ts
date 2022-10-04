@@ -1,3 +1,5 @@
-import { MyKafkaRequest, MyKafkaResponse, ConsumerRunProcess } from './api';
+import { MyKafkaRequest, MyKafkaResponse } from './api';
+import { ConsumerRunProcess } from './consumer';
+import { MyKafkaMessage } from './producer';
 
-export { MyKafkaRequest, MyKafkaResponse, ConsumerRunProcess };
+export { MyKafkaRequest, MyKafkaResponse, ConsumerRunProcess, MyKafkaMessage };

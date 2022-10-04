@@ -1,14 +1,12 @@
 import express from 'express';
-import { Consumer } from 'kafkajs';
+import { MyKafkaMessage } from './producer';
 
 export interface MyKafkaRequest extends express.Request {
   admin?: any;
+  body: {
+    topic: string;
+    message: MyKafkaMessage;
+  }
 }
 
 export interface MyKafkaResponse extends express.Response {}
-
-export interface ConsumerRunProcess {
-  counter: number;
-  consumerName: string;
-  consumer: Consumer;
-}
